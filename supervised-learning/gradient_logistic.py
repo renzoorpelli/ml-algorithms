@@ -1,7 +1,7 @@
-from typing import Tuple, Union
+import math
+from typing import Tuple
 
 import numpy as np
-import math
 from sigmoid import sigmoid
 
 
@@ -17,7 +17,6 @@ def compute_cost(X: np.ndarray, y: np.ndarray, w: np.ndarray, b: float, *argv) -
     Returns:
       total_cost : (scalar) cost
     """
-
     m, _ = X.shape
 
     total_cost = 0.0

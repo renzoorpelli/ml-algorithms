@@ -13,9 +13,7 @@ class Model:
         x = self.l2(x).relu().max_pool2d((2, 2))
         return self.l3(x.flatten(1).dropout(0.5))
 
-
 def main():
-
     X_train, Y_train, X_test, Y_test = mnist()
     print(X_train.shape, X_train.dtype, Y_train.shape, Y_train.dtype)
 
@@ -39,19 +37,19 @@ def main():
         return loss
 
     # breakdown time by kernel
-    # GlobalCounters.reset()
-    # with Context(DEBUG=2):
+    GlobalCounters.reset()
+    with Context(DEBUG=3, VIZ=1):
+        jit_step = TinyJit(step)
+        # train_res = timeit.repeat(jit_step, repeat=5, number=1)
+        # print(train_res)
 
-    jit_step = TinyJit(step)
-    # train_res = timeit.repeat(jit_step, repeat=5, number=1)
-    # print(train_res)
-
-    for stp in range(7000):
-        loss = jit_step()
-        if stp % 100 == 0:
-            Tensor.training = False
-            acc = (model(X_test).argmax(axis=1) == Y_test).mean().item()
-            print(f"step {stp:4d}, loss {loss.item():.2f}, acc {acc * 100.0:.2f}%")
+        for stp in range(7000):
+            loss = jit_step()
+            if stp % 100 == 0:
+                Tensor.training = False
+                acc = (model(X_test).argmax(axis=1) == Y_test).mean().item()
+                print(
+                    f"step {stp:4d}, loss {loss.item():.2f}, acc {acc * 100.0:.2f}%")
 
 
 if __name__ == "__main__":
