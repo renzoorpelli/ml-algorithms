@@ -1,0 +1,1 @@
+That's just me going through ML-Specialization Course. The code will be pretty much the same as the course jupyter notebooks except for some coding convetions (I came from typed langs) AND some projects that i'd like to do.
